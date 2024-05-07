@@ -5,6 +5,10 @@ import axios from "axios";
 import "./components/dropdown.css";
 import { FaArrowRightArrowLeft } from "react-icons/fa6";
 
+import { ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function App() {
   const [text, setText] = useState("");
   const [show, setShow] = useState("");
@@ -23,8 +27,18 @@ function App() {
 
   const translate = async () => {
     if (!sourceLanguage || !targetLanguage) {
-      alert("Please select both source and target languages.");
+      toast.error("Please select both languages", {
+        position: "top-center",
+        theme: "colored",
+      });
       return;
+    }
+
+    if(text === ""){
+      toast.error("Please Enter text", {
+        position: "top-center",
+        theme: "colored",
+      });
     }
 
     let required = {
@@ -44,6 +58,12 @@ function App() {
         },
       }
     );
+
+    toast.success("Your text is Translated 😉", {
+      position: "top-center",
+      theme: "colored",
+    });
+
     setShow(response.data.data.translatedText);
   };
 
@@ -93,6 +113,8 @@ function App() {
           "{text}" IS TRANSLATED IN "{show}"{" "}
         </h1>
       )}
+
+    <ToastContainer />
     </div>
   );
 }
